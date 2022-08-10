@@ -270,6 +270,16 @@ FAB_API_SWAGGER_UI = True
 DRUID_TZ = tz.tzutc()
 DRUID_ANALYSIS_TYPES = ["cardinality"]
 
+# Legacy Druid NoSQL (native) connector
+# Druid supports a SQL interface in its newer versions.
+# Setting this flag to True enables the deprecated, API-based Druid
+# connector. This feature may be removed at a future date.
+DRUID_IS_ACTIVE = False
+
+# If Druid is active whether to include the links to scan/refresh Druid datasources.
+# This should be disabled if you are trying to wean yourself off of the Druid NoSQL
+# connector.
+DRUID_METADATA_LINKS_ENABLED = True
 
 # ----------------------------------------------------
 # AUTHENTICATION CONFIG
@@ -1086,6 +1096,43 @@ EMAIL_REPORTS_SUBJECT_PREFIX = "[Report] "
 SLACK_API_TOKEN: Optional[Union[Callable[[], str], str]] = None
 SLACK_PROXY = None
 
+# If enabled, certain features are run in debug mode
+# Current list:
+# * Emails are sent using dry-run mode (logging only)
+#
+# Warning: This config key is deprecated and will be removed in version 2.0.0"
+SCHEDULED_EMAIL_DEBUG_MODE = False
+
+# This auth provider is used by background (offline) tasks that need to access
+# protected resources. Can be overridden by end users in order to support
+# custom auth mechanisms
+MACHINE_AUTH_PROVIDER_CLASS = "superset.utils.machine_auth.MachineAuthProvider"
+
+# Email reports - minimum time resolution (in minutes) for the crontab
+#
+# Warning: This config key is deprecated and will be removed in version 2.0.0"
+EMAIL_REPORTS_CRON_RESOLUTION = 15
+
+# The MAX duration (in seconds) a email schedule can run for before being killed
+# by celery.
+#
+# Warning: This config key is deprecated and will be removed in version 2.0.0"
+EMAIL_ASYNC_TIME_LIMIT_SEC = 300
+
+# Send bcc of all reports to this address. Set to None to disable.
+# This is useful for maintaining an audit trail of all email deliveries.
+#
+# Warning: This config key is deprecated and will be removed in version 2.0.0"
+EMAIL_REPORT_BCC_ADDRESS = None
+
+# User credentials to use for generating reports
+# This user should have permissions to browse all the dashboards and
+# slices.
+# TODO: In the future, login as the owner of the item to generate reports
+#
+# Warning: This config key is deprecated and will be removed in version 2.0.0"
+EMAIL_REPORTS_USER = "admin"
+
 # The webdriver to use for generating reports. Use one of the following
 # firefox
 #   Requires: geckodriver and firefox installations
@@ -1211,6 +1258,28 @@ PREVENT_UNSAFE_DB_CONNECTIONS = False
 # Defaults to temporary directory.
 # Example: SSL_CERT_PATH = "/certs"
 SSL_CERT_PATH: Optional[str] = None
+
+# SIP-15 should be enabled for all new Superset deployments which ensures that the time
+# range endpoints adhere to [start, end). For existing deployments admins should provide
+# a dedicated period of time to allow chart producers to update their charts before
+# mass migrating all charts to use the [start, end) interval.
+#
+# Note if no end date for the grace period is specified then the grace period is
+# indefinite.
+SIP_15_ENABLED = True
+SIP_15_GRACE_PERIOD_END: Optional[date] = None  # exclusive
+SIP_15_DEFAULT_TIME_RANGE_ENDPOINTS = ["unknown", "inclusive"]
+SIP_15_TOAST_MESSAGE = (
+    "Action Required: Preview then save your chart using the "
+    'new time range endpoints <a target="_blank" href="{url}" '
+    'class="alert-link">here</a>.'
+)
+
+# Turn this key to False to disable ownership check on the old dataset MVC and
+# datasource API /datasource/save.
+#
+# Warning: This config key is deprecated and will be removed in version 2.0.0"
+OLD_API_CHECK_DATASET_OWNERSHIP = True
 
 # SQLA table mutator, every time we fetch the metadata for a certain table
 # (superset.connectors.sqla.models.SqlaTable), we call this hook
