@@ -98,6 +98,7 @@ WEBDRIVER_BASEURL = "http://superset:8088/"
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 
 SQLLAB_CTAS_NO_LIMIT = True
+# ENABLE_PROXY_FIX=True
 
 #
 # Optionally import superset_config_docker.py (which will have been included on
@@ -112,3 +113,9 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
+
+
+
+
+from security import CustomSecurityManager
+CUSTOM_SECURITY_MANAGER = CustomSecurityManager

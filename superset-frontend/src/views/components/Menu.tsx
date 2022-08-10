@@ -272,7 +272,7 @@ export function Menu({
     );
   };
   return (
-    <StyledHeader className="top" id="main-menu" role="navigation">
+    <StyledHeader className="top main-menu" id="main-menu" role="navigation">
       <Global styles={globalStyles(theme)} />
       <Row>
         <Col md={16} xs={24}>

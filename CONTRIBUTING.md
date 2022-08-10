@@ -571,7 +571,7 @@ There are three types of assets you can build:
 
 #### Webpack dev server
 
-The dev server by default starts at `http://localhost:9000` and proxies the backend requests to `http://localhost:8088`.
+The dev server by default starts at `http://localhost:9001` and proxies the backend requests to `http://localhost:8088`.
 
 So a typical development workflow is the following:
 
@@ -580,16 +580,16 @@ So a typical development workflow is the following:
    # Install Superset and dependencies, plus load your virtual environment first, as detailed above.
    FLASK_ENV=development superset run -p 8088 --with-threads --reload --debugger
    ```
-2. in parallel, run the Webpack dev server locally on port `9000`,<br/>
+2. in parallel, run the Webpack dev server locally on port `9001`,<br/>
    ```bash
    npm run dev-server
    ```
-3. access `http://localhost:9000` (the Webpack server, _not_ Flask) in your web browser. This will use the hot-reloading front-end assets from the Webpack development server while redirecting back-end queries to Flask/Superset: your changes on Superset codebase — either front or back-end — will then be reflected live in the browser.
+3. access `http://localhost:9001` (the Webpack server, _not_ Flask) in your web browser. This will use the hot-reloading front-end assets from the Webpack development server while redirecting back-end queries to Flask/Superset: your changes on Superset codebase — either front or back-end — will then be reflected live in the browser.
 
 It's possible to change the Webpack server settings:
 
 ```bash
-# Start the dev server at http://localhost:9000
+# Start the dev server at http://localhost:9001
 npm run dev-server
 
 # Run the dev server on a non-default port
@@ -852,7 +852,7 @@ npm run cypress-run-chrome -- --spec cypress/integration/dashboard/index.test.js
 npm run cypress-debug
 
 # to point cypress to a url other than the default (http://localhost:8088) set the environment variable before running the script
-# e.g., CYPRESS_BASE_URL="http://localhost:9000"
+# e.g., CYPRESS_BASE_URL="http://localhost:9001"
 CYPRESS_BASE_URL=<your url> npm run cypress open
 ```
 

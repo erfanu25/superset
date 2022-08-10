@@ -16,6 +16,7 @@
 # under the License.
 from __future__ import annotations
 
+import pprint
 import logging
 import os
 from typing import Any, Callable, Dict, TYPE_CHECKING
@@ -242,7 +243,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_view(
             SliceModelView,
             "Charts",
-            label=__("Charts"),
+            label=__("Reports"),
             icon="fa-bar-chart",
             category="",
             category_icon="",
@@ -607,4 +608,22 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
 class SupersetIndexView(IndexView):
     @expose("/")
     def index(self) -> FlaskResponse:
-        return redirect("/superset/welcome/")
+        from superset import security_manager
+        print("CUSTOM_SECURITY_MANAGER:::::::::")
+        user_roles = security_manager.get_user_roles()
+        url = "/superset/welcome"
+        for role in user_roles:
+            role_name = role.name
+            print("role_name::")
+            print(role_name)
+            if role_name == "Admin":
+                url="/superset/welcome"
+                break
+            elif role_name == "Pmanager Role":
+                url="/superset/dashboard/Procurement-Manager/"
+                break
+            elif role_name == "CEO Role":
+                url="/superset/dashboard/CEO/"
+                break
+
+        return redirect(url)
